@@ -1,0 +1,97 @@
+#include "std_lib_facilities.h" 
+class Year {
+    static const int min = 1800;
+    static const int max = 2200;
+public:
+    class Invalid {};
+    Year(int x) :y(x) { if (x < min || max <= x)throw Invalid{}; }
+    int year() { return y; }
+    void add_year(int n) {
+        y += n;
+    }
+    Year() {};
+private:
+    int y;
+};
+enum class Month {
+    jan = 1, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec
+};
+vector<string> month_tbl = { "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec" };
+ostream& operator<<(ostream& os,Month m) {
+    return os << month_tbl[int(m)-1];
+}
+class Date {
+private:
+    Year y;
+    Month m;
+    int d;
+public:
+    Date(Date& dd) {
+        y = dd.y;
+        m = dd.m;
+        d = dd.d;
+    }
+    Date(Year y1, Month m1, int d1) {
+        if (m1 == Month::jan || m1 == Month::mar || m1 == Month::may || m1 == Month::jul || m1 == Month::aug || m1 == Month::oct || m1 == Month::dec) {
+            if (d1 > 31 || d1 < 1) {
+                cout << "Wrong!" << endl;
+                return;
+            }
+        }
+        else if (m1 < Month::jan || m1>Month::dec) {
+            cout << "Wrong!" << endl;
+            return;
+        }
+        else if (m1 != Month::feb) {
+            if (d1 > 30 || d1 < 1) {
+                cout << "Wrong!" << endl;
+                return;
+            }
+        }
+        else {
+            if (d1 > 29 || d1 < 1) {
+                cout << "Wrong!" << endl;
+                return;
+            }
+        }
+        y = y1.year();
+        m = m1;
+        d = d1;
+    }
+    void add_day(int n) {
+        if (n > 365) {
+            y.add_year(n / 365);
+            n = n % 365;
+        }
+        int mo[] = { 31,29,31,30,31,30,31,31,30,31,30,31 };
+        int m1 ;
+        m1 = int(m);
+        while (mo[m1 - 1] < n + d) {
+            n -= mo[m1 - 1] + 1 - d;
+            d = 1;
+            m1++;
+            if (m1 == 13) {
+                m1 = 1;
+                y.add_year(1);
+            }
+        }
+        m = Month(m1);
+        d += n;
+    }
+    Year year() { return y; }
+    Month month() { return m; }
+    int day() { return d; }
+};
+ostream& operator<<(ostream& os,Date dd) {
+    return os <<dd.year().year() <<dd.month() << dd.day() << endl; 
+}
+void f() {
+    Date today(Year(2005), Month::dec, 4);
+    Date tomorrow = today;
+    today.add_day(66);
+    cout << today<<tomorrow;
+}
+int main() {
+    f();
+    return 0;
+}
