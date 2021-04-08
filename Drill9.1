@@ -5,7 +5,7 @@ struct Date {
     int d;
 };
 Date today;
-void init_day(Date &dd,int y,int m,int d) {
+void init_day(Date& dd, int y, int m, int d) {
     if (m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 || m == 12) {
         if (d > 31 || d < 1) {
             cout << "Wrong!" << endl;
@@ -16,7 +16,7 @@ void init_day(Date &dd,int y,int m,int d) {
         cout << "Wrong!" << endl;
         return;
     }
-    else if(m!=2){
+    else if (m != 2) {
         if (d > 30 || d < 1) {
             cout << "Wrong!" << endl;
             return;
@@ -32,15 +32,14 @@ void init_day(Date &dd,int y,int m,int d) {
     dd.m = m;
     dd.d = d;
 }
-void add_day(Date& dd,int n) {
+void add_day(Date& dd, int n) {
     if (n > 365) {
         dd.y += n / 365;
         n = n % 365;
     }
     int m[] = { 31,29,31,30,31,30,31,31,30,31,30,31 };
     while (m[dd.m - 1] < n + dd.d) {
-        cout << dd.m - 1 << endl;
-        n -= m[dd.m - 1]+1 - dd.d;
+        n -= m[dd.m - 1] + 1 - dd.d;
         dd.d = 1;
         dd.m++;
         if (dd.m == 13) {
@@ -56,4 +55,7 @@ void f() {
     init_day(today, 2005, 12, 4);
     add_day(today, 66);
     cout << today.y << today.m << today.d << endl;
+}int main() {
+    f();
+    return 0;
 }
