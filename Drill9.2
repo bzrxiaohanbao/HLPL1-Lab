@@ -1,0 +1,60 @@
+#include "std_lib_facilities.h" 
+struct Date {
+    int y;
+    int m;
+    int d;
+    Date( int y1, int m1, int d1) {
+        if (m1 == 1 || m1 == 3 || m1 == 5 || m1 == 7 || m1 == 8 || m1 == 10 || m1 == 12) {
+            if (d1 > 31 || d1 < 1) {
+                cout << "Wrong!" << endl;
+                return;
+            }
+        }
+        else if (m1 < 1 || m1>12) {
+            cout << "Wrong!" << endl;
+            return;
+        }
+        else if (m1 != 2) {
+            if (d1 > 30 || d1 < 1) {
+                cout << "Wrong!" << endl;
+                return;
+            }
+        }
+        else {
+            if (d1 > 29 || d1 < 1) {
+                cout << "Wrong!" << endl;
+                return;
+            }
+        }
+        y = y1;
+        m = m1;
+        d = d1;
+    }
+    void add_day(int n) {
+    if (n > 365) {
+        y += n / 365;
+        n = n % 365;
+    }
+    int mo[] = { 31,29,31,30,31,30,31,31,30,31,30,31 };
+    while (mo[m - 1] < n + d) {
+        n -= mo[m - 1]+1 - d;
+        d = 1;
+        m++;
+        if (m == 13) {
+            m = 1;
+            y++;
+        }
+    }
+    d += n;
+}
+};
+
+void f() {
+    Date today (2005, 12, 4);
+    today.add_day( 66);
+    cout << today.y << today.m << today.d << endl;
+}
+int main() {
+    f();
+    return 0;
+}
