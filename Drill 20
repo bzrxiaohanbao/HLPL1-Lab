@@ -1,0 +1,89 @@
+#include <iostream> 
+#include <stdexcept> 
+#include <array> 
+#include <vector> 
+#include <list> 
+#include <algorithm> 
+using namespace std;
+template<typename T>
+void increasing(T& t, int n) {
+	for (auto& e : t)
+		e += n;
+}
+
+//6. Copy operations to further process the data.
+template<typename Iter1, typename Iter2>
+Iter2 my_copy(Iter1 f1, Iter1 e1, Iter2 f2) {
+	for (Iter1 p = f1; p != e1; ++p) {
+		*f2 = *p;
+		f2++;
+	}
+	return f2;
+}
+template<typename T>
+void display(T& t) {
+	for (auto& e : t)
+		cout << e << " ";
+	cout << endl;
+}
+int main()
+try {
+	//1. Define an array 
+	array<int, 10> ar = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	vector<int> v = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	list<int> l = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	display(ar);
+	display(v);
+	display(l);
+	cout << endl;
+	array<int, 10> ar2;
+	for (int i = 0; i < 10; ++i) {
+		ar2[i] = ar[i];
+	}
+	vector<int> v2 = v;
+	list<int> l2 = l;
+	display(ar2);
+	display(v2);
+	display(l2);
+	cout << endl;
+	//5. Call the increasing and display functions
+	increasing(v2, 3);
+	increasing(l2, 5);
+	display(ar2);
+	display(v2);
+	display(l2);
+	cout << endl;
+	//7. Call copy and display functions
+	copy(ar2.begin(), ar2.end(), v2.begin());
+	copy(l2.begin(), l2.end(), ar2.begin());
+	display(ar2);
+	display(v2);
+	display(l2);
+	cout << endl;
+	//8. Use the standard library find() to perform the required operations.
+	vector<int>::iterator pvec;
+	pvec = find(v2.begin(), v2.end(), 3);
+	if (pvec != v2.end()) {
+		cout << "The position of value 3 in vector is: " << distance(v2.begin(), pvec) << endl;
+	}
+	else {
+		cout << "No value found in vector!" << endl;
+	}
+	list<int>::iterator lvec;
+	lvec = find(l2.begin(), l2.end(), 27);
+	if (lvec != l2.end()) {
+		cout << "The position of the value 12 in the list is: " << distance(l2.begin(), lvec) << endl;
+	}
+	else {
+		cout << "No value found in list!" << endl;
+	}
+	return 0;
+}
+catch (exception& e) {
+	cerr << "Exception!  " << e.what() << endl;
+	return 1;
+}
+catch (...) {
+	cerr << "Exception!  " << endl;
+	return 2;
+}
