@@ -1,0 +1,71 @@
+#include "std_lib_facilities.h" 
+
+ostream& print_vector(ostream& os, vector<int>& v) {
+	for (auto e : v)
+		os << e << " ";
+	os << endl;
+	return os;
+}
+ostream& print_array(ostream& os, int* a, int n) {
+	for (int k = 0; k < n; ++k)
+		os << a[k] << " ";
+	os << endl;
+	return os;
+}
+int main()
+try {
+	//1.分配一个int，将其初始化为7，然后将其地址分配给变量p1。 int temp = 7; 
+	int temp = 7;
+	int* p1 = &temp;
+	//2. 打印出p1及其指向的int的值。
+	cout << p1 << " " << *p1 << endl;
+	//3. 分配七个int数组；将其初始化为1、2、4、8等；并将其地址分配给变量p2。
+	int* array = new int[7]; temp = 1;
+	for (int k = 0; k < 7; ++k) {
+		array[k] = temp;
+		temp *= 2;
+	}
+	int* p2 = array;
+	//4. Allocate seven int arrays; Initialize it to 1, 2, 4, 8, etc; And assign its address to the variable P2
+	cout << p2 << endl;
+	print_array(cout, array, 7);
+	//5. Declare an int * called P3 and initialize it with P2
+	int* p3 = p2;
+	//6.Assign P1 to P2 
+	p2 = p1;
+	//7. Assign P3 to P2
+	p2 = p3;
+	//8. print p1,p2,*p1,*p2. 
+	cout << p1 << *p1 << endl;
+	cout << p2 << *p2 << endl;
+	//9. delete array. 
+	delete[] array;
+	//10. Initialize array 
+	p1 = new int[10]{ 1, 2, 4, 8, 16, 32, 64, 128, 256, 512 };
+	//11. Configure an array of ten integers and assign its address to the variable P2.
+	p2 = new int[10];
+	//12. Copy the value from the array pointed to by P1 to the array pointed to by P2.
+	for (int k = 0; k < 10; ++k)
+		p2[k] = p1[k];
+	print_array(cout, p2, 10);
+	delete p1;
+	delete p2;
+	//13.10. Initialize vector. 
+	vector<int> v10 = { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512 };
+	p1 = &v10[0];
+	//13.11.Assign a vector of ten integers and assign its address to the variable P2.
+	vector<int> v11(10);
+	p2 = &v11[0];
+	//13.12. copy. 
+	v11 = v10;
+	print_vector(cout, v11);
+	return 0;
+}
+catch (exception& e) {
+	cerr << "Exception! " << e.what() << endl;
+	return 1;
+}
+catch (...) {
+	cerr << "Some exceptions! " << endl;
+	return 2;
+}
